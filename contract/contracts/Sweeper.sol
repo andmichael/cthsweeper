@@ -5,6 +5,8 @@ import "hardhat/console.sol";
 
 contract Sweeper {
     mapping(address => uint256) public playersRecord;
+    mapping(address => bool) public playersPlayed;
+    uint256 public blockNumber;
     uint256 public betLimit = 10000000000000000;
 
     constructor(uint256 _betLimit) {
@@ -39,18 +41,26 @@ contract Sweeper {
     }
 
     function play() external onlyEnteredPlayers {
-        // Bad security, need better random mechanisms for cheapeth
-        if (block.timestamp % 2 == 0) {
-            playersRecord[msg.sender] *= 2;
-        } else {
-            playersRecord[msg.sender] = 0;
+        if(block.number != blockNumber){
+            blockNumber = block.number;
+            playersPlayed[msg.sender] = false;
         }
-        emit BalanceChanged(msg.sender, playersRecord[msg.sender]);
+        if(playersPlayed[msg.sender] != true){
+            // Bad security, need better random mechanisms for cheapeth
+            if (block.timestamp % 2 == 0) {
+                playersRecord[msg.sender] *= 2;
+            } else {
+                playersRecord[msg.sender] = 0;
+            }
+            emit BalanceChanged(msg.sender, playersRecord[msg.sender]);
+            playersPlayed[msg.sender] = true;
+        }
     }
 
     function withdraw() external onlyEnteredPlayers {
-        msg.sender.transfer(playersRecord[msg.sender]);
+        uint256 withdraw_amount = playersRecord[msg.sender];
         playersRecord[msg.sender] = 0;
+        msg.sender.transfer(withdraw_amount);
         emit BalanceChanged(msg.sender, playersRecord[msg.sender]);
     }
 }

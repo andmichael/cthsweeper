@@ -1,4 +1,4 @@
-contract_address = '0x2476452650a4ab296A7e5831e0039a2b0CDB384C';
+contract_address = '0xAF27c3B2E2120408B7e9Cd7c2d0BA96940Ee0d71';
 abi = [
   {
     inputs: [
@@ -49,6 +49,19 @@ abi = [
   },
   {
     inputs: [],
+    name: 'blockNumber',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
     name: 'enter',
     outputs: [],
     stateMutability: 'payable',
@@ -59,6 +72,25 @@ abi = [
     name: 'play',
     outputs: [],
     stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    name: 'playersPlayed',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
     type: 'function',
   },
   {
