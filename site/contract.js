@@ -1,4 +1,4 @@
-contract_address = '0xAF27c3B2E2120408B7e9Cd7c2d0BA96940Ee0d71';
+contract_address = '0x77609AAEC3a903DdE1952A3Be12aA304ed3F150e';
 abi = [
   {
     inputs: [

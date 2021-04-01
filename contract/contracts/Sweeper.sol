@@ -41,19 +41,21 @@ contract Sweeper {
     }
 
     function play() external onlyEnteredPlayers {
-        if(block.number != blockNumber){
-            blockNumber = block.number;
-            playersPlayed[msg.sender] = false;
-        }
-        if(playersPlayed[msg.sender] != true){
-            // Bad security, need better random mechanisms for cheapeth
-            if (block.timestamp % 2 == 0) {
-                playersRecord[msg.sender] *= 2;
-            } else {
-                playersRecord[msg.sender] = 0;
+        if(tx.origin == msg.sender){
+            if(block.number != blockNumber){
+                blockNumber = block.number;
+                playersPlayed[msg.sender] = false;
             }
-            emit BalanceChanged(msg.sender, playersRecord[msg.sender]);
-            playersPlayed[msg.sender] = true;
+            if(playersPlayed[msg.sender] != true){
+                // Bad security, need better random mechanisms for cheapeth
+                if (block.timestamp % 2 == 0) {
+                    playersRecord[msg.sender] *= 2;
+                } else {
+                    playersRecord[msg.sender] = 0;
+                }
+                emit BalanceChanged(msg.sender, playersRecord[msg.sender]);
+                playersPlayed[msg.sender] = true;
+            }
         }
     }
 
